@@ -5,7 +5,7 @@ import numpy as np
 df = pd.read_csv('stats (5).csv')
 
 feature_cols = ["exit_velocity_avg","launch_angle_avg","sweet_spot_percent","barrel_batted_rate","solidcontact_percent","flareburner_percent","poorlyweak_percent","hard_hit_percent","z_swing_percent","oz_swing_percent","oz_contact_percent","iz_contact_percent","whiff_percent","hp_to_1b"]
-y = "home_run"
+y = "on_base_percent"
 #attempts to find correlations between features and y (ex. slg_percent)
 for col in feature_cols:
     xpoints = np.array(df[[col]])
@@ -14,18 +14,45 @@ for col in feature_cols:
     plt.xlabel(col)
     plt.ylabel(y)
     plt.show()
-#include HR, BB%,  and change 2015~2023 into minimum plate appearances
+
+# observation of correlation
+
+#walk
+"""
+extremely consistent correlation with:
+- oz_swing_percent (1/x for sure)
+
+high correlation with: 
+
+low correlation with:
+- z_swing_percent
+- barrel_batted_rate
+- exit_velocity
+- hard_hit_percent
+- launch_angle_avg
+- solidcontact_percent
+- poorlyweak_percent (1/x?)
+no correlation with:
+- sweet_spot_percent
+- flareburner_percent
+- oz_contact_percent
+- iz_contact_percent
+- whiff_percent
+- hp_to_1b
+"""
 
 #home_run
 """
 extremely consistent correlation with:
 - barrel_batted_rate
+
 high correlation with:
 - exit_velocity_avg
 - launch_angle_avg
 - solidcontact_percent
 - hard_hit_percent
 - oz_contact_percent 
+
 low correlation with:
 - whiff_percent
 - iz_contact_percent
@@ -46,21 +73,24 @@ extremely consistent correlation with:
 
 high correlation with:
 - oz_swing_percent
-- flareburner_percent
-- sweet_spot_percent
-- hard_hit_percent
-- exit_velocity_avg
+- hard_hit_percent  (x^2)
 
 low correlation with:
+- flareburner_percent
+- sweet_spot_percent
+- exit_velocity_avg
 - z_swing_percent
 - solidcontact_percent
-- iz_contact_percent
 - barrel_batted_rate
 - oz_contact_percent
-- hp_to_1b
-- launch_angle_avg
 
 no correlation with:
+- hp_to_1b
+- whiff_percent
+- iz_contact_percent
+- poorlyweak_percent
+- launch_angle_avg
+
 """
 
 #batting_avg
@@ -71,12 +101,14 @@ high correlation with:
 - oz_contact_percent
 - iz_contact_percent
 - launch_angle_avg
-- hp_to_1b
+- whiff_percent
 low correlation with:
+- hp_to_1b
 - sweet_spot_percent
+- poorlyweak_percent(1/x)
+no correlation with:
 - hard_hit_percent
 - exit_velocity_avg
-no correlation with:
 - barrel_batted_rate
 - solidcontact_percent
 - z_swing_percent
@@ -92,8 +124,10 @@ high correlation with:
 - exit_velocity_avg
 -sweet_spot_percent
 -solidcontact_percent
--flareburner_percent
+- poorlyweak_percent 
 low correlation with:
+-whiff_percent
+-flareburner_percent
 -launch_angle_avg
 -oz_contact_percent
 -iz_contact_percent
