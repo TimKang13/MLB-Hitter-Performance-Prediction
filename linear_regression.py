@@ -1,0 +1,40 @@
+#it is obvious that it is impossible to earn more than 60% with simple linear model.
+from sklearn import linear_model
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+from matplotlib import pyplot as plt
+import pandas as pd
+import numpy as np
+
+
+df = pd.read_csv('stats (5).csv')
+#feature_cols = ["exit_velocity_avg","launch_angle_avg","sweet_spot_percent","barrel_batted_rate","solidcontact_percent","flareburner_percent","poorlyweak_percent","hard_hit_percent","z_swing_percent","oz_swing_percent","oz_contact_percent","iz_contact_percent","whiff_percent","hp_to_1b"]
+
+#X = df.loc[:,"exit_velocity_avg":"hp_to_1b"]
+X = df[["exit_velocity_avg","launch_angle_avg", "sweet_spot_percent", "barrel_batted_rate","solidcontact_percent","flareburner_percent","poorlyweak_percent", "hard_hit_percent","z_swing_percent","oz_swing_percent","oz_contact_percent","iz_contact_percent", "whiff_percent"]]
+# multi target regression.
+# targets: "home_run","walk","batting_avg","slg_percent","on_base_percent"
+
+
+
+y = df["home_run"]
+l_reg = linear_model.LinearRegression()
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = l_reg.fit(X_train, y_train)
+
+predictions = model.predict(X_test)
+
+
+
+print("R^2 value: ", l_reg.score(X_test,y_test))
+yy = y_test.to_numpy()
+for i in range(len(yy)):
+    print(predictions[i],  yy[i])
+
+
+
+
+
+
